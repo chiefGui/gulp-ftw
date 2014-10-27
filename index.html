@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Gulp.js for the win. On FloripaJS Devs Meetup.</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section data-transition="zoom">
+          <img src="/img/gulp.png" alt="Gulp.js" style="border: none; box-shadow: none;">
+          <h3>For the win.</h3>
+
+          <p>
+            <small>
+              By
+              <a href="http://oderdenge.com/" target="_blank">Guilherme Oderdenge</a>.
+            </small>
+          </p>
+        </section>
+
+        <section data-transition="zoom">
+          <section>
+            <h2>Firstly, let me introduce myself.</h2>
+
+            <p data-markdown>
+              My name is **Guilherme Oderdenge** and I am a **Front-End Developer**
+              based on the Oktoberfest's land, **Blumenau**.
+            </p>
+          </section>
+
+          <section>
+            <p data-markdown>
+              Today, my main focus is **JavaScript** and the technologies
+              on its bottom, such as **Underscore.js**, **Backbone.js**,
+              **Browserify.js**, **Gulp.js** and others.
+            </p>
+          </section>
+
+          <section>
+            <p data-markdown>
+              Yet in JS, when programming the back-end, I proudly go with
+              **Node**.
+            </p>
+          </section>
+
+          <section>
+            Ok. Now it's the show time.
+          </section>
+        </section>
+
+        <section data-background="#fff">
+          <h3>
+            <em>
+              Gulp is a
+                <h1 style="color: #cd4a3e; padding: 40px 0 20px;">kickass</h1>
+               task runner...
+            </em>
+          </h3>
+        </section>
+
+        <section data-background="#fff">
+          <p>
+            With it, you
+            <strong>minify</strong> your <span style="color: #cd4a3e;">.css</span> file this way:
+          </p>
+
+          <pre style="box-shadow: none;	">
+            <code data-trim>
+              gulp.task('minify-css', function () {
+  return gulp.src('./assets/css/screen.css')
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./static/css/'));
+});
+            </code>
+          </pre>
+
+          <p>
+            or if you need to <strong>minify multiple files</strong>,
+            just use an <span style="color: #cd4a3e">[]</span>:
+          </p>
+
+          <pre style="box-shadow: none;	">
+            <code data-trim>
+gulp.task('minify-css', function () {
+  return gulp.src(['./assets/css/screen.css', './assets/css/mobile.css'])
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./static/css/'));
+});
+            </code>
+          </pre>
+
+          <p>
+            <span style="color: #a93fb9;">Sexy</span> and <span style="color: #d69000;">simple</span>, huh?
+          </p>
+        </section>
+
+        <section>
+          <p>
+            But you are already familiar with this simplicity.
+          </p>
+
+          <p>
+            The point for today is deeper.
+          </p>
+        </section>
+
+        <section>
+          <p data-markdown>
+            The point for today will give you an idea about decoupling
+            tasks on Gulp,
+            using **Browserify**, **SASS**, **Concat**, **Minfication** and
+            **React** as example.
+          </p>
+        </section>
+
+        <section>
+          <p>
+            Promising, huh? Let's get started, then...
+          </p>
+        </section>
+
+        <section data-background="#fff" data-transition="zoom">
+          <p>
+            On Gulp, some people do the following:
+          </p>
+
+          <pre style="box-shadow: none;	">
+            <code data-trim>
+var gulp        = require ('gulp')
+    , concatCss = require ('gulp-concat-css')
+    , minifyCss = require ('gulp-minify-css');
+
+// Your other tasks...
+
+gulp.task('css', function () {
+  return gulp.src(
+      ['./assets/css/screen.css', './assets/css/mobile.css']
+    ).pipe(concatCss('package.css'))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./static/css/'));
+});
+
+// Your other tasks (now maybe your 'default' task)
+            </code>
+          </pre>
+
+          <p>
+            Now, let me ask you something:
+          </p>
+
+          <h3>
+            You saw something <span style="color: #cd4a3e;">wrong</span>?
+          </h3>
+        </section>
+
+        <section data-background="#fff" data-transition="linear">
+          <p>
+            Technically, nothing's wrong.
+          </p>
+
+          <p class="fragment fade-in">
+            But <span style="color: #a93fb9;">conceptually</span>, I think so.
+          </p>
+
+          <div class="fragment fade-in">
+            <p>See:</p>
+
+            <pre style="box-shadow: none;">
+              <code data-trim>
+var cssFiles = [
+  './assets/css/screen.css', './assets/css/mobile.css'
+];
+
+gulp.task('concat-css', function () {
+  return gulp.src(cssFiles)
+    .pipe(concatCss('package.css'))
+    .pipe(gulp.dest('./static/css/'));
+});
+
+gulp.task('minify-css', function () {
+  return gulp.src('./static/css/package.css')
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./static/css/'));
+});
+
+gulp.task('css', ['concat-css', 'minify-css']);
+              </code>
+            </pre>
+          </p>
+        </section>
+
+        <section data-background="#fff">
+          Could you feel the <span class="fragment highlight-green">decoupling</span>?
+        </section>
+
+        <section data-background="#fff">
+          <h3>Hell yeah!</h3>
+
+          <p data-markdown>
+            The decoupling transformed the tasks into three different natures
+            which you can invoke independently based on your need, being the
+            unique loss the weight of **gulpfile.js**.
+          </p>
+        </section>
+
+        <section data-background="#fff">
+          <p>By example:</p>
+
+          <hr>
+
+          <p data-markdown>
+            That **gulpfile.js**...
+          </p>
+
+          <div class="left">
+            <p>
+              <span style="color: #cd4a3e;">without</span>
+              decoupling:
+            </p>
+
+            <h1>
+              427 bytes
+            </h1>
+          </div>
+
+          <div class="right">
+            <p>
+              <span style="color: #a93fb9;">with</span>
+              decoupling:
+            </p>
+
+            <h1>
+              621 bytes
+            </h1>
+          </div>
+        </section>
+
+        <section data-background="#fff">
+          <p>
+            Of course, the difference get bigger when your gulpfile gain
+            tasks. But take it easy because Gulp is server-side and overall
+            the file weight increase is insignificant.
+          </p>
+        </section>
+
+        <section data-background="#fff" data-transition="zoom">
+          <p>
+            Going further, it's time to say hello to our <u>fundamental</u>
+            tasks:
+          </p>
+
+          <pre style="box-shadow: none;">
+            <code data-trim>
+var gulp            = require ('gulp')
+    , concatCss     = require ('gulp-concat-css')
+    , minifyCss     = require ('gulp-minify-css')
+    , sass          = require ('gulp-sass')
+    , browserify    = require ('gulp-browserify')
+    , react         = require ('gulp-react')
+    , concat        = require ('gulp-concat')
+    , uglify        = require ('gulp-uglify');
+            </code>
+          </pre>
+
+          <small data-markdown>
+            *
+**Remember:** All of the dependencies are installed with **npm install --save-dev ?**.
+            *
+          </small>
+        </section>
+
+        <section>
+          <h2>What does <em>fundamental</em> mean?</h2>
+        </section>
+
+        <section>
+          <p>
+            Until now, the applicability of tasks decoupling on Gulp are being a
+            little abstract, ain't it?
+          </p>
+
+          <p>
+            This is because decoupling tasks get more useful when you have a real
+            scenario of appliance. Let's bootstrap with <strong>SASS</strong>.
+          </p>
+        </section>
+
+        <section data-background="#fff">
+          <p>
+            Designing SASS as a Gulp's task:
+          </p>
+
+          <pre style="box-shadow: none;">
+            <code data-trim>
+gulp.task('sass', function () {
+  return gulp.src('./assets/scss/*')
+    .pipe(sass())
+    .pipe(gulp.desc('./assets/css/'));
+});
+            </code>
+          </pre>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
