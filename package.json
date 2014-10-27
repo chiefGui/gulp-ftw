@@ -1,0 +1,39 @@
+{
+  "name": "gulp-ftw",
+  "version": "0.0.1",
+  "description": "Gulp examples for FloripaJS Devs Meetup.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:chiefGui/gulp-ftw.git"
+  },
+  "keywords": [
+    "gulp",
+    "gulp",
+    "examples",
+    "gulp",
+    "instructions",
+    "gulp",
+    "for",
+    "the",
+    "win",
+    "decoupling",
+    "tasks",
+    "gulp",
+    "decoupling"
+  ],
+  "author": "Guilherme Oderdenge <guilherme@oderdenge.com> (http://oderdenge.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chiefGui/gulp-ftw/issues"
+  },
+  "homepage": "https://github.com/chiefGui/gulp-ftw",
+  "devDependencies": {
+    "gulp": "^3.8.9",
+    "gulp-concat-css": "^1.1.0",
+    "gulp-minify-css": "^0.3.11"
+  }
+}
