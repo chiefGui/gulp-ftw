@@ -1,0 +1,15 @@
+{
+  "name": "gulp-ftw",
+  "version": "0.0.1",
+  "homepage": "https://github.com/chiefGui/gulp-ftw",
+  "authors": [
+    "Guilherme Oderdenge <guilhermeoderdenge@gmail.com>"
+  ],
+  "description": "Gulp examples for FloripaJS Devs Meetup.",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}
