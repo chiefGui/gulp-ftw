@@ -311,30 +311,119 @@ var gulp            = require ('gulp')
 
         <section>
           <p>
-            Until now, the applicability of tasks decoupling on Gulp are being a
-            little abstract, ain't it?
+            Until now, the applicability of tasks decoupling on Gulp are
+            being a little abstract, ain't it?
+          </p>
+
+          <p style="margin: 40px 0;">
+            This is because the usefulness of decoupling tasks came out when you have a <u>real
+            scenario</u> of appliance.
           </p>
 
           <p>
-            This is because decoupling tasks get more useful when you have a real
-            scenario of appliance. Let's bootstrap with <strong>SASS</strong>.
+            Just for pragmatic purposes, <u>fundamentals</u> has its literal understanding
+            as <u>real scenario</u>.
           </p>
         </section>
 
         <section data-background="#fff">
           <p>
-            Designing SASS as a Gulp's task:
+            Now, these are our final tasks:
           </p>
 
           <pre style="box-shadow: none;">
             <code data-trim>
 gulp.task('sass', function () {
-  return gulp.src('./assets/scss/*')
+  return gulp.src('./assets/scss/*.scss')
     .pipe(sass())
-    .pipe(gulp.desc('./assets/css/'));
+    .pipe(
+      gulp.dest('./assets/css/')
+    );
 });
+
+gulp.task('concat-css', function () {
+  var assets = [
+    './assets/vendor/bootstrap/dist/css/bootstrap.css',
+    './assets/css/screen.css'
+  ];
+
+  return gulp.src(assets)
+    .pipe(concatCss('package.css'))
+    .pipe(
+      gulp.dest('./static/css/')
+    );
+});
+
+gulp.task('minify-css', function () {
+  return gulp.src('./static/css/package.css')
+    .pipe(minifyCss())
+    .pipe(
+      gulp.dest('./static/css/')
+    );
+});
+
+gulp.task('react', function () {
+  return gulp.src('./assets/js/components/**/*.jsx')
+    .pipe(react())
+    .pipe(gulp.dest('./assets/js/components/'));
+});
+
+gulp.task('browserify', function () {
+  return gulp.src('./assets/js/hello.js')
+    .pipe(browserify({
+      shim: {
+        jquery: {
+          path: './assets/vendor/jquery/dist/jquery.js',
+          exports: '$'
+        },
+        underscore: {
+          path: './assets/vendor/underscore/underscore.js',
+          exports: '_',
+          depends: {
+            jquery: '$'
+          }
+        },
+        react: {
+          path: './assets/vendor/react/react.js',
+          exports: 'React'
+        }
+      }
+    }))
+    .pipe(gulp.dest('./static/js/'));
+});
+
+gulp.task('uglify', function () {
+  return gulp.src('./static/js/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./static/js/'));
+});
+
+gulp.task('js', ['react', 'browserify', 'uglify']);
+
+gulp.task('css', ['sass', 'concat-css', 'minify-css']);
+
+gulp.task('default', ['css', 'js']);
             </code>
           </pre>
+        </section>
+
+        <section data-background="#fff">
+          <p data-markdown>
+            And finally, seeing the terminal commands I do, it's
+            easy to see how decoupling can be useful for us.
+          </p>
+        </section>
+
+        <section data-transition="zoom">
+          <p>
+            So, that's it.
+          </p>
+
+          <ul>
+            <li>http://oderdenge.com</li>
+            <li>guilherme@oderdenge.com</li>
+            <li>http://github.com/chiefgui/</li>
+          </ul>
         </section>
       </div>
 
