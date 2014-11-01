@@ -36,10 +36,44 @@ gulp.task('minify-css', function () {
     );
 });
 
-gulp.task('browserify', function () {
-
+gulp.task('react', function () {
+  return gulp.src('./assets/js/components/**/*.jsx')
+    .pipe(react())
+    .pipe(gulp.dest('./assets/js/components/'));
 });
+
+gulp.task('browserify', function () {
+  return gulp.src('./assets/js/hello.js')
+    .pipe(browserify({
+      shim: {
+        jquery: {
+          path: './assets/vendor/jquery/dist/jquery.js',
+          exports: '$'
+        },
+        underscore: {
+          path: './assets/vendor/underscore/underscore.js',
+          exports: '_',
+          depends: {
+            jquery: '$'
+          }
+        },
+        react: {
+          path: './assets/vendor/react/react.js',
+          exports: 'React'
+        }
+      }
+    }))
+    .pipe(gulp.dest('./static/js/'));
+});
+
+gulp.task('uglify', function () {
+  return gulp.src('./static/js/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./static/js/'));
+});
+
+gulp.task('js', ['react', 'browserify', 'uglify']);
 
 gulp.task('css', ['sass', 'concat-css', 'minify-css']);
 
-gulp.task('default', []);
+gulp.task('default', ['css', 'js']);

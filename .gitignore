@@ -1,3 +1,5 @@
 node_modules/
 static/
 .DS_Store
+assets/js/components/**/*.js
+assets/css/
